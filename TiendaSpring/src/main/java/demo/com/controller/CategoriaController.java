@@ -25,11 +25,11 @@ import demo.com.service.CategoriaService;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-
+	@Autowired//llama a Spring para indicar que será una instancia
 	private CategoriaService CategoriaService;
 
 	@GetMapping("{id}")
-	public Categoria leerById(@PathVariable("id") int id) {
+	public Categoria getRegistro(@PathVariable("id") int id) {
 		return CategoriaService.getById(id);
 	}
 
@@ -46,8 +46,8 @@ public class CategoriaController {
 	public Categoria insertById(@RequestBody Categoria c, @PathVariable int id) {
 		return CategoriaService.actualizarById(c,id);
 	}
-	@DeleteMapping()
-	public void delete(Categoria c) {
-		CategoriaService.delete(c);
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable int id) {
+		CategoriaService.deleteById(id);
 	}
 }

@@ -3,6 +3,7 @@ package demo.com.dominio;
 import java.util.Objects;
 
 import demo.com.exception.DomainException;
+import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
 
 /**
@@ -37,13 +38,13 @@ public class Direccion {
 	 * Setter para el nombre
 	 * 
 	 * @param dir_nombre
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_nombre(String dir_nombre) throws DomainException {
+	public void setDir_nombre(String dir_nombre) throws Exception {
 		if (Validator.cumpleLongitud(dir_nombre, 5, 100) && Validator.isAlfanumeric(dir_nombre))
 			this.dir_nombre = dir_nombre;
 		else
-			throw new DomainException("El nombre ha de contener entre 5 y 100 caracteres");
+			throw new Exception(ErrorMessages.PROERR_004);
 	}
 
 	/**
@@ -61,13 +62,13 @@ public class Direccion {
 	 * Setter para la dirección
 	 * 
 	 * @param dir_direccion
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_direccion(String dir_direccion) throws DomainException {
+	public void setDir_direccion(String dir_direccion) throws Exception {
 		if (Validator.isAlfanumeric(dir_direccion))
 			this.dir_direccion = dir_direccion;
 		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+			throw new Exception(ErrorMessages.PROERR_006);
 	}
 
 	/**
@@ -83,13 +84,13 @@ public class Direccion {
 	 * Setter para la población
 	 * 
 	 * @param dir_poblacion
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_poblacion(String dir_poblacion) throws DomainException {
+	public void setDir_poblacion(String dir_poblacion) throws Exception {
 		if (Validator.isAlfanumeric(dir_poblacion))
 			this.dir_poblacion = dir_poblacion;
 		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+			throw new Exception(ErrorMessages.PROERR_006);
 	}
 
 	/**
@@ -105,13 +106,13 @@ public class Direccion {
 	 * Setter para el código postal
 	 * 
 	 * @param dir_cPostal
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_cPostal(String dir_cPostal) throws DomainException {
+	public void setDir_cPostal(String dir_cPostal) throws Exception {
 		if (Validator.isAlfanumeric(dir_cPostal))
 			this.dir_cPostal = dir_cPostal;
 		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+			throw new Exception(ErrorMessages.PROERR_006);
 	}
 
 	/**
@@ -127,13 +128,13 @@ public class Direccion {
 	 * Setter para la provincia
 	 * 
 	 * @param dir_provincia
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_provincia(String dir_provincia) throws DomainException {
+	public void setDir_provincia(String dir_provincia) throws Exception {
 		if (Validator.isAlfanumeric(dir_provincia))
 			this.dir_provincia = dir_provincia;
 		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+			throw new Exception(ErrorMessages.PROERR_006);
 	}
 
 	/**
@@ -149,13 +150,13 @@ public class Direccion {
 	 * Setter para el país
 	 * 
 	 * @param dir_pais
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_pais(String dir_pais) throws DomainException {
+	public void setDir_pais(String dir_pais) throws Exception {
 		if (Validator.isAlfanumeric(dir_pais))
 			this.dir_pais = dir_pais;
 		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+			throw new Exception(ErrorMessages.PROERR_006);
 	}
 
 	/**
@@ -171,14 +172,13 @@ public class Direccion {
 	 * Setter para el a-mail
 	 * 
 	 * @param dir_correoE
-	 * @throws DomainException
+	 * @throws Exception 
 	 */
-	public void setDir_correoE(String dir_correoE) throws DomainException {
+	public void setDir_correoE(String dir_correoE) throws Exception {
 		if (Validator.isEmailValido(dir_correoE))
 			this.dir_correoE = dir_correoE;
 		else
-			throw new DomainException(
-					"Debe ser minúscula, mayúscula con dígitos entre 0 y 9. Evita los puntos finales antes del @");
+			throw new Exception(ErrorMessages.PROERR_007);
 	}
 
 	@Override

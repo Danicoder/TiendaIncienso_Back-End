@@ -1,0 +1,9 @@
+package demo.com.objetos.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import demo.com.dominio.Categoria;
+@Repository
+public interface ICategoriaRepo extends JpaRepository<Categoria, Integer> {
+}
