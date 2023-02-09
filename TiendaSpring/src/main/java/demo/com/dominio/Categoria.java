@@ -2,9 +2,11 @@ package demo.com.dominio;
 
 import java.io.Serializable;
 
-import demo.com.exception.DomainException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,29 +26,31 @@ import jakarta.persistence.Transient;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Categoria implements Serializable {
+public class Categoria implements Serializable,Modelo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id_categoria; 			//identificador categoria
+	@Column(nullable = false)
 	private String cat_nombre; 			// nombre de la categoria
+	@Column(nullable = true, length = 200)
 	private String cat_descripcion; 	// descripcion de la categoria
 
 	public Categoria() {
 	}
 
-//	// indico a JPA que este método no es un atributo de la tabla
-	@Transient
-	public boolean isValid() {
-		return !Validator.isVacio(cat_nombre);
-	}
 	/**
 	 * Getter para identificador de categoria
-	 * 
 	 * @return Integer con el id de la categoria
 	 */
-	@Transient
+	@Transient// indico a JPA que este método no es un atributo de la tabla
 	public int getId_categoria() {
 		return id_categoria;
+	}
+	@Transient
+	@Override
+	@JsonIgnore	//ignora la información en postmand
+	public boolean isValid() {
+		return Modelo.super.isValid();
 	}
 
 	/**

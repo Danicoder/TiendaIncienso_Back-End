@@ -30,17 +30,17 @@ public class CategoriaController {
 
 	@GetMapping("{id}")
 	public Categoria getRegistro(@PathVariable("id") int id) {
-		return CategoriaService.getById(id);
+		return CategoriaService.getCategoriaById(id);
 	}
 
 	@GetMapping()
 	public List<Categoria> listarCategoria() {
-		return CategoriaService.getList();
+		return CategoriaService.getlistaCategoria();
 	}
 
 	@PostMapping // insert
 	public Categoria insert(@RequestBody Categoria c) {
-		return CategoriaService.update(c);
+		return CategoriaService.actualizar(c);
 	}
 	@PutMapping("/{id}") // modificar un único campo
 	public Categoria insertById(@RequestBody Categoria c, @PathVariable int id) {

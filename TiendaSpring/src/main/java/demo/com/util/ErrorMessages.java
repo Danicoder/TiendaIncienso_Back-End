@@ -8,9 +8,7 @@ package demo.com.util;
  * 			Clase con los String que contienen los mensajes de error 
  * 			especificados por las reglas de negocio.
  * 
- *  @version	Enero 2016
- *  
- *  @author 	Miguel Garcia
+ *  @author 	Daniela Garcia
  *  
  *  *****************************************************/
 public class ErrorMessages {
@@ -31,6 +29,6 @@ public class ErrorMessages {
 	public final static String PROERR_005 = "El nombre ha de contener entre 5 y 100 caracteres";
 	public final static String PROERR_006 = "Debe ser minúscula, mayúscula con dígitos entre 0 y 9";
 	public final static String PROERR_007 = "Debe ser minúscula, mayúscula con dígitos entre 0 y 9. Evita los puntos finales antes del @";
-	
+	public final static String PROERR_008 = "La longitud de nombre ha de estar entre 5 y 100";
 
 }

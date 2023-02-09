@@ -1,6 +1,10 @@
 package demo.com.dominio;
 
-public abstract class Modelo {
-	public abstract boolean isValidInsert();
-	public abstract boolean isValidUpdate();
+import demo.com.util.Validator;
+
+public interface Modelo {
+	Categoria c = new Categoria();
+	public default boolean isValid() {
+		return !Validator.isVacio(c.getCat_nombre());
+	}
 }

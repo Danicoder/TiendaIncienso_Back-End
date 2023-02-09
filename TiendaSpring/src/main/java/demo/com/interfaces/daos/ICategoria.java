@@ -7,7 +7,9 @@ import demo.com.dominio.Categoria;
 
 
 public interface ICategoria {
-	public Categoria getRegistro(int num);
-	public List<Categoria> lista(Categoria c);
-	public boolean guardar(Categoria c);
+	public Categoria getCategoriaById(int id);
+	public List<Categoria> getlistaCategoria();
+	public Categoria actualizar(Categoria categoria);
+	public Categoria actualizarById(Categoria c,int id);
+	public void deleteById(int id);
 }
