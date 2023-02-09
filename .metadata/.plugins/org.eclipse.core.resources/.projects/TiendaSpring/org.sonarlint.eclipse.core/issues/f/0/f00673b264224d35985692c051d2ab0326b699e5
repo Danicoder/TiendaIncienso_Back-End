@@ -1,0 +1,13 @@
+
+‡	java:S116"WRename this field "id_categoria" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–¬Ô½øÿÿÿÿH×RMINORZ
+CODE_SMELL
+€	java:S116"URename this field "cat_nombre" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§˜”ŞHØRMINORZ
+CODE_SMELL
+Š	java:S116"ZRename this field "cat_descripcion" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º–­ÌúÿÿÿÿHÙRMINORZ
+CODE_SMELL
+°
+java:S1186""€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÚÚÏ–HÚRCRITICALZ
+CODE_SMELL
+s
+java:S1126‡"AReplace this if-then-else statement by a single return statement.(¡¹ÖşÿÿÿÿHÜRMINORZ
+CODE_SMELL

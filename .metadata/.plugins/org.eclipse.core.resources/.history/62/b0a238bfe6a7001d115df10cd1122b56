@@ -1,0 +1,11 @@
+package demo.com.objetos.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import demo.com.dominio.Categoria;
+
+public interface ICategoriaRepo extends JpaRepository<Categoria, Integer> {
+	List<Categoria> findBy();
+}

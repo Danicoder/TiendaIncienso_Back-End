@@ -1,0 +1,26 @@
+package demo.com.service;
+
+import java.util.List;
+
+import demo.com.dominio.Categoria;
+import demo.com.objetos.Repository.ICategoriaRepo;
+import demo.com.util.ErrorMessages;
+import demo.com.exception.DomainException;
+
+public class CategoriaService extends DomainException{
+	private ICategoriaRepo CategoriaRepository;
+
+	public Categoria getById(int id) {
+		return CategoriaRepository.findById(id).get();
+	}
+	public List<Categoria> getList() {
+		return CategoriaRepository.findAll();
+	}
+	public Categoria insert(Categoria categoria) {
+		//Hace un insert sí existe, de lo contrario lo actualiza
+		if(CategoriaRepository.existsById(categoria.getId_categoria())) {
+			throw new ErrorMessages();
+		}
+		return CategoriaRepository.save(categoria);
+	}
+}

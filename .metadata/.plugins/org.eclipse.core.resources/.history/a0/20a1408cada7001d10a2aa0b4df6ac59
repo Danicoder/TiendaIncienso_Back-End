@@ -1,0 +1,16 @@
+/**
+ * 
+ */
+package demo.com.objetos.daos;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import demo.com.dominio.Categoria;
+
+/**
+ * @author d.garcia.millan
+ *
+ */
+public interface ICategoriaRepo extends JpaRepository<Categoria, Integer> {
+	// public abstract ArrayList<Usuario> findByUser_email(String email);
+}

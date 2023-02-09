@@ -1,0 +1,18 @@
+/**
+ * 
+ */
+package demo.com.objetos.daos;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import demo.com.dominio.Categoria;
+
+/**
+ * @author d.garcia.millan
+ *
+ */
+@Repository
+public interface ICategoriaRepo extends JpaRepository<Categoria, Integer> {
+	
+}

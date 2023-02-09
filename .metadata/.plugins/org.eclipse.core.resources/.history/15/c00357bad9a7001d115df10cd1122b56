@@ -1,0 +1,7 @@
+package demo.com.service;
+
+import demo.com.dominio.Categoria;
+
+public interface IServicioCategoria extends ServicioDao<Categoria>{
+
+}

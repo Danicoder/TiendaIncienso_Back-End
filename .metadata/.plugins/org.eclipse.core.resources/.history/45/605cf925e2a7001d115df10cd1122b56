@@ -1,0 +1,27 @@
+package demo.com.service;
+
+import java.util.List;
+
+import demo.com.dominio.Categoria;
+import demo.com.exception.DomainException;
+import demo.com.objetos.Repository.ICategoriaRepo;
+
+public class CategoriaService extends DomainException {
+	private ICategoriaRepo CategoriaRepository;
+
+	public Categoria getById(int id) {
+		return CategoriaRepository.findById(id).get();
+	}
+
+	public List<Categoria> getList() {
+		return CategoriaRepository.findAll();
+	}
+
+	public Categoria insert(Categoria categoria) {
+		// Hace un insert sí existe, de lo contrario lo actualiza
+		if (CategoriaRepository.existsById(categoria.getId_categoria())) {
+			new DomainException("Error 404 Not_found, Categoria no encontrada");
+		}
+		return CategoriaRepository.save(categoria);
+	}
+}

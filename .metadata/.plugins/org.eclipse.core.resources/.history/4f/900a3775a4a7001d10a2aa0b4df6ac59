@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package demo.com.objetos.daos;
+
+/**
+ * @author d.garcia.millan
+ *
+ */
+public interface ICategoriaRepo extends JpaRepository<Categoria,Integer>{
+	//public abstract ArrayList<Usuario> findByUser_email(String email);
+}

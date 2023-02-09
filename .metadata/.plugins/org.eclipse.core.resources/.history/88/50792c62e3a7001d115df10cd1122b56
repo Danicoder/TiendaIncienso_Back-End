@@ -1,0 +1,5 @@
+package demo.com.controller;
+
+public @interface PustMapping {
+
+}

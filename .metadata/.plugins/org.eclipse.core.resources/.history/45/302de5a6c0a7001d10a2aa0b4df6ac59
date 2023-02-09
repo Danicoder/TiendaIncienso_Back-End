@@ -1,0 +1,16 @@
+package demo.com;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
+//@SpringBootApplication(scanBasePackages = "demo.com")
+//@SpringBootApplication(scanBasePackages={"demo.com.cursojava.curso.controller", "demo.com.cursojava.curso.dao"})
+@SpringBootApplication
+public class TiendaSpringApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TiendaSpringApplication.class, args);
+	}
+
+}
