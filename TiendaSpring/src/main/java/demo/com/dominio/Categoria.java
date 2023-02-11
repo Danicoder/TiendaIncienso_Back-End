@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,29 +27,31 @@ import jakarta.persistence.Transient;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Categoria implements Serializable,Modelo {
+public class Categoria implements Serializable, Modelo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private int id_categoria; 			//identificador categoria
-	@Column(nullable = false)
-	private String cat_nombre; 			// nombre de la categoria
+	private int id_categoria; // identificador categoria
+	@Column(nullable = false, length = 50)
+	private String cat_nombre; // nombre de la categoria
 	@Column(nullable = true, length = 200)
-	private String cat_descripcion; 	// descripcion de la categoria
+	private String cat_descripcion; // descripcion de la categoria
 
 	public Categoria() {
 	}
 
 	/**
 	 * Getter para identificador de categoria
+	 * 
 	 * @return Integer con el id de la categoria
 	 */
-	@Transient// indico a JPA que este método no es un atributo de la tabla
+	@Transient // indico a JPA que este método no es un atributo de la tabla
 	public int getId_categoria() {
 		return id_categoria;
 	}
+
 	@Transient
 	@Override
-	@JsonIgnore	//ignora la información en postmand
+	@JsonIgnore // ignora la información en postmand
 	public boolean isValid() {
 		return Modelo.super.isValid();
 	}
@@ -104,11 +107,9 @@ public class Categoria implements Serializable,Modelo {
 	 * 
 	 */
 	@Transient
-	public void setCat_descripcion(String cat_descripcion) throws Exception {
-		if (Validator.cumpleLongitudMax(cat_descripcion, 200))
-			this.cat_descripcion = cat_descripcion;
-		else
-			throw new Exception(ErrorMessages.PROERR_004);
+	public void setCat_descripcion(String cat_descripcion) {
+		this.cat_descripcion = cat_descripcion.equals(null) ? null
+				: StringUtils.truncate(cat_descripcion, 200);
 	}
 
 	@Transient
@@ -155,11 +156,12 @@ public class Categoria implements Serializable,Modelo {
 	}
 }
 /*
- * Utilizo @valid Categoria categoria en los métodos 
- * para hacer referencia de los @Range y @NotEmpty.
+ * Utilizo @valid Categoria categoria en los métodos para hacer referencia de
+ * los @Range y @NotEmpty.
  * 
- * Estas anotaciones se relizarán en la tabla contenedora
- * de los atributos.
+ * Estas anotaciones se relizarán en la tabla contenedora de los atributos.
+ * 
  * @Range(min=5,max=100)
+ * 
  * @@NotEmpty make sure name is not empty
  */

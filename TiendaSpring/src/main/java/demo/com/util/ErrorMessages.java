@@ -18,8 +18,9 @@ public class ErrorMessages {
 	/**
 	 * Codigo de producto
 	 */
+	public final static String PROERR_000 = "Formato correcto";
 	public final static String PROERR_001 = "Formato codigo erroneo";
-	public final static String PROERR_002 = "Longitud de codigo erroneo";
+	public final static String PROERR_002 = "Longitud de codigo erroneo o inexistente";
 	
 	/**
 	 * Campo con longitud erronea
@@ -30,5 +31,9 @@ public class ErrorMessages {
 	public final static String PROERR_006 = "Debe ser minúscula, mayúscula con dígitos entre 0 y 9";
 	public final static String PROERR_007 = "Debe ser minúscula, mayúscula con dígitos entre 0 y 9. Evita los puntos finales antes del @";
 	public final static String PROERR_008 = "La longitud de nombre ha de estar entre 5 y 100";
-
+	public final static String PROERR_009 = "No se encontro la categoria con esa id";
+	public final static String PROERR_010 = "Se ha actualizado correctamente la categoria";
+	public final static String PROERR_011 = "Ocurrio un error al eliminar la categoria, verifica la id";
+	public final static String PROERR_012 = "No se encontro la categoria";
+	public final static String PROERR_013 = "No se encontro la categoria";
 }

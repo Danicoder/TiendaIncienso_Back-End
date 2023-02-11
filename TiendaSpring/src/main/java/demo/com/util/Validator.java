@@ -231,8 +231,10 @@ public class Validator {
 		 * 
 		 **************************************************************************************/
 	public static boolean cumpleLongitudMax(String texto, int longitudMaxima) {
-		return texto.length() < longitudMaxima;
-
+		return !isVacio(texto) && texto.length() <= longitudMaxima ;
+	}
+	public static boolean cumpleLongitudMax_NULL(String texto, int longitudMaxima) {
+		return isVacio(texto) && texto.length() <= longitudMaxima ;
 	}
 
 	/****************************************************************************************

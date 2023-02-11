@@ -41,6 +41,11 @@
 			<artifactId>ojdbc8</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>rf.curso</groupId>
+			<artifactId>S4_MiniApi2</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
