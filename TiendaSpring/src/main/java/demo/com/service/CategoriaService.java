@@ -28,13 +28,13 @@ public class CategoriaService implements ICategoria {
 		}catch(NoSuchElementException e) {
 			e.fillInStackTrace();
 		}
-		return null;
+		return CategoriaRepository.findById(id).get();
 	}
 
 	@Override
 	public List<Categoria> getlistaCategoria() {
 		try {
-			if(CategoriaRepository.count() >0) {
+			if(CategoriaRepository.count() > 0) {
 				return CategoriaRepository.findAll();
 			}
 			else
@@ -58,7 +58,7 @@ public class CategoriaService implements ICategoria {
 				return CategoriaRepository.save(categoria);
 		}catch(NullPointerException e)
 		{
-			e.getStackTrace();
+			new DAOException("Error 404 Not_found, Categoria no encontrada");
 		}
 		return categoria;
 	}

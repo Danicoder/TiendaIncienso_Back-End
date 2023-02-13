@@ -35,5 +35,5 @@ public class ErrorMessages {
 	public final static String PROERR_010 = "Se ha actualizado correctamente la categoria";
 	public final static String PROERR_011 = "Ocurrio un error al eliminar la categoria, verifica la id";
 	public final static String PROERR_012 = "No se encontro la categoria";
-	public final static String PROERR_013 = "No se encontro la categoria";
+	public final static String PROERR_013 = "Eliminado correctamente";
 }

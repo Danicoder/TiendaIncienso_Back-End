@@ -1,16 +1,10 @@
-/**
- * 
- */
 package demo.com.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.com.dominio.Categoria;
 import demo.com.service.CategoriaService;
-import demo.com.util.Mensajes;
 import demo.com.util.ErrorMessages;
+import demo.com.util.Mensajes;
 
 /**
- * @author d.garcia.millan
+ * @author Daniela García Millán
  *
  */
 @RestController
@@ -36,7 +30,6 @@ public class CategoriaController {
 	@Autowired // llama a Spring para indicar que será una instancia
 	private CategoriaService CategoriaService;
 
-	// Otra forma de lanzar exception pero sin cambiar el estado de postman
 	@GetMapping("/{id}")
 	public Mensajes getRegistro(@PathVariable("id") String id) {
 		if (id != null) {
@@ -46,19 +39,19 @@ public class CategoriaController {
 				if (c == null) {
 					return Mensajes.mensaje("500", ErrorMessages.PROERR_002, null);
 				} else {
-					return Mensajes.mensaje("200",ErrorMessages.PROERR_001, c);
+					return Mensajes.mensaje("200", ErrorMessages.PROERR_001, c);
 				}
-			} catch (NumberFormatException convert) {// convertir de string a int
+			} catch (NumberFormatException convert) {
 				return Mensajes.mensaje("500", ErrorMessages.PROERR_001, null);
 			}
 		} else {
-			return Mensajes.mensaje("500", "La categoria no existe", null);
+			return Mensajes.mensaje("500", ErrorMessages.PROERR_009, null);
 		}
 	}
 
 	@GetMapping("/")
 	public Mensajes sinDatos() {
-		return Mensajes.mensaje("500", "La categoria no existe", null);
+		return Mensajes.mensaje("500", ErrorMessages.PROERR_012, null);
 	}
 
 	@GetMapping()
@@ -68,62 +61,43 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Categoria c) {
-		Map<String, Object> response = new HashMap<>();
-		try {
-			CategoriaService.actualizar(c);
-			response.put("Mensaje: ", ErrorMessages.PROERR_010);
+	public Mensajes insert(@RequestBody Categoria c) {
+		if (c != null) {
+			try {
+				CategoriaService.actualizar(c);
+				return Mensajes.mensaje("200", ErrorMessages.PROERR_000, c);
+			} catch (DataAccessException e) {
+				return Mensajes.mensaje("500", ErrorMessages.PROERR_002, null);
+			}
 		}
-		catch(DataAccessException e) {
-			response.put("Mensaje: ", ErrorMessages.PROERR_009);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		return Mensajes.mensaje("500", ErrorMessages.PROERR_012, null);
 	}
 
-	@PutMapping("/actualizar/{id}") // modificar un único campo
-	public ResponseEntity<?> insertById(@RequestBody Categoria c, @PathVariable int id) {
-		Map<String, Object> response = new HashMap<>();
+	@PutMapping("/actualizar/{id}") 
+	public Mensajes insertById(@RequestBody Categoria c, @PathVariable String id) {
 		try {
-			Categoria categoria = null;
-			try {
-				categoria = CategoriaService.actualizarById(categoria, id);
-				if (!categoria.isValid()) {// sí el valor del objeto no es nulo
-					response.put("Mensaje:", ErrorMessages.PROERR_010);
-				} else {
-					response.put("Mensaje:", ErrorMessages.PROERR_009);
-					return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			} catch (DataAccessException e) {
-				response.put("Mensaje: ", ErrorMessages.PROERR_009);
+			if (id != null && c != null) {
+				int idNum = Integer.parseInt(id);
+				Categoria cat = CategoriaService.actualizarById(c, idNum);
+				return Mensajes.mensaje("200", ErrorMessages.PROERR_001, cat);
+			} else {
+				Mensajes.mensaje("500", ErrorMessages.PROERR_009, null);
 			}
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-		}catch(NullPointerException n) {
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}catch(NumberFormatException f) {
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}catch(UnknownError e) {
-			e.getStackTrace();
-		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	// Otra forma de capturar errores cambiando el estado de Postman
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
-		Map<String, Object> response = new HashMap<>();
-		try {
-			try {
-				CategoriaService.deleteById(id);
-				response.put("Mensaje:", "Se elimino la categoria correctamente");
-			} catch (DataAccessException e) {
-				response.put("Mensaje: ", ErrorMessages.PROERR_011);
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 		} catch (DataAccessException e) {
-			response.put("Mensaje: ", ErrorMessages.PROERR_011);
+			Mensajes.mensaje("500", ErrorMessages.PROERR_010, null);
 		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}	
+		return Mensajes.mensaje("500", ErrorMessages.PROERR_012, null);
+	}
+
+	@DeleteMapping("/eliminar/{id}")
+	public Mensajes delete(@PathVariable("id") String id) {
+		if (id != null) {
+			int idNum = Integer.parseInt(id);
+			CategoriaService.deleteById(idNum);
+			return Mensajes.mensaje("200", ErrorMessages.PROERR_001, null);
+		} else {
+			Mensajes.mensaje("500", ErrorMessages.PROERR_009, null);
+		}
+		return Mensajes.mensaje("500", ErrorMessages.PROERR_012, null);
+	}
 }

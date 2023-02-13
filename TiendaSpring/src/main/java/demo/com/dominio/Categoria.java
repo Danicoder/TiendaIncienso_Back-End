@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import demo.com.exception.DomainException;
 import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
 import io.micrometer.common.util.StringUtils;
@@ -86,7 +87,7 @@ public class Categoria implements Serializable, Modelo {
 		if (Validator.cumpleLongitud(cat_nombre, 5, 50))
 			this.cat_nombre = cat_nombre;
 		else {
-			throw new Exception(ErrorMessages.PROERR_003);
+			throw new DomainException(ErrorMessages.PROERR_003);
 		}
 	}
 
@@ -155,13 +156,3 @@ public class Categoria implements Serializable, Modelo {
 				+ cat_descripcion + "]";
 	}
 }
-/*
- * Utilizo @valid Categoria categoria en los métodos para hacer referencia de
- * los @Range y @NotEmpty.
- * 
- * Estas anotaciones se relizarán en la tabla contenedora de los atributos.
- * 
- * @Range(min=5,max=100)
- * 
- * @@NotEmpty make sure name is not empty
- */
