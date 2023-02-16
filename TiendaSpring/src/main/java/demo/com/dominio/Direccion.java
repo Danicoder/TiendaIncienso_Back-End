@@ -5,22 +5,38 @@ import java.util.Objects;
 import demo.com.exception.DomainException;
 import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 /**
  * Nombre Direccion Descripcion Lista de categorías
  * 
  * @author Daniela García
  */
+@Embeddable //indicamos que la clase puede ser integrada dentro de una entidad
 public class Direccion {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private String dir_nombre;
+	@Column(nullable = true)
 	private String dir_direccion;
+	@Column(nullable = true)
 	private String dir_poblacion;
+	@Column(nullable = true)
 	private String dir_cPostal;
+	@Column(nullable = true)
 	private String dir_provincia;
-	private String dir_pais;
+	@Column(nullable = true)
+	private int id_pais;
+	@Column(nullable = true)
 	private String dir_correoE;
-
+	@Transient // transient porqué no siempre se tendrá acceso al valor de la variable
+	private Pais dir_pais; 
+	
 	public Direccion() {
 		super();
 	}
@@ -44,7 +60,7 @@ public class Direccion {
 		if (Validator.cumpleLongitud(dir_nombre, 5, 100))
 			this.dir_nombre = dir_nombre;
 		else
-			throw new Exception(ErrorMessages.PROERR_008);
+			throw new Exception(ErrorMessages.PROERR_005);
 	}
 
 	/**
@@ -130,7 +146,7 @@ public class Direccion {
 	 * 
 	 * @return el país
 	 */
-	public String getDir_pais() {
+	public Pais getDir_pais() {
 		return dir_pais;
 	}
 
@@ -140,8 +156,8 @@ public class Direccion {
 	 * @param dir_pais
 	 * @throws Exception
 	 */
-	public void setDir_pais(String dir_pais) throws Exception {
-		this.dir_pais = dir_pais;
+	public void setDir_pais(int id_pais) throws Exception {
+		this.id_pais = id_pais;
 	}
 
 	/**

@@ -4,9 +4,19 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import demo.com.exception.DomainException;
 import demo.com.util.Validator;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 /**
  * Nombre Producto Descripcion Lista de categorías
@@ -14,24 +24,66 @@ import demo.com.util.Validator;
  * @author Daniela García
  */
 public class Producto {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(length = 5)
 	private String id_producto;
+	@Column(nullable = false, length = 100)
 	private String pro_descripcion;
+	@Column(nullable = true, length = 2000)
 	private String pro_desLarga;
+	@Column(nullable = false)
 	private double pro_precio;
-	private int pro_stock;
+	@Column(nullable = true)
+	private int pro_stock = 0;
+	@Column(nullable = true, name = "FECHA_REPOSICION")
 	private LocalDate pro_fecRepos;
+	@Column(nullable = true, name = "FECHA_ACTIVACION")
 	private LocalDate pro_fecActi;
+	@Column(nullable = true, name = "FECHA_DESACTIVACION")
 	private LocalDate pro_fecDesacti;
+	@Column(nullable = false)
 	private String pro_uniVenta;
-	private double pro_cantXUniVenta;
+	@Column(nullable = true)
+	private double pro_cantXUniVenta = 0;
+	@Column(nullable = false)
 	private String pro_uniUltNivel;
+	@Column(nullable = true)
 	private int id_pais;
+	@Column(nullable = true)
 	private String pro_usoRecomendado;
-	private int id_categoria;
-	private int pro_stkReservado;
-	private int pro_nStkAlto;
-	private int pro_nStkBajo;
-	private char pro_stat;
+	@Column(nullable = true, name = "STOCK_RESERVADO")
+	private int pro_stkReservado = 0;
+	@Column(nullable = true, name = "STOCK_NIVEL_ALTO")
+	private int pro_nStkAlto = 0;
+	@Column(nullable = true, name = "STOCK_NIVEL_BAJO")
+	private int pro_nStkBajo = 0;
+	@Column(nullable = true, name = "ESTADO")
+	private char pro_stat = 'A';
+	
+	//Relación de tabla con Categoria
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "id_categoria")
+	private Categoria id_categoria;
+	
+	@JsonIgnore
+	@Transient
+	private final LocalDate FECHA_HOY = LocalDate.now();
+	@JsonIgnore
+	@Transient
+	private final int MAX = 5;
+	@JsonIgnore
+	@Transient
+	private final int MIN = 5;
+	@JsonIgnore
+	@Transient
+	private final int MAX_2 = 100;
+	@JsonIgnore
+	@Transient
+	private final int MAX_3 = 2000;
+	@JsonIgnore
+	@Transient
+	private final int MIN_2 = 1;
 
 	public Producto() {
 		super();
@@ -42,10 +94,10 @@ public class Producto {
 	}
 
 	public void setId_producto(String id_producto) throws DomainException {
-		if (Validator.cumpleLongitud(id_producto, 5, 5) && Validator.isAlfanumeric(id_producto))
+		if (Validator.cumpleLongitud(id_producto, MIN, MAX) && Validator.isAlfanumeric_Mayus(id_producto)) {
 			this.id_producto = id_producto;
-		else
-			throw new DomainException("Debe contener 5 carácteres, letras y números");
+		} else
+			throw new DomainException("Debe contener 5 carácteres cómo máximo, letras y números");
 	}
 
 	public String getPro_descripcion() {
@@ -53,10 +105,10 @@ public class Producto {
 	}
 
 	public void setPro_descripcion(String pro_descripcion) throws DomainException {
-		if (Validator.isAlfanumeric(id_producto) && Validator.cumpleLongitud(pro_descripcion, 5, 100))
+		if (Validator.cumpleLongitud(pro_descripcion, MIN, MAX_2))
 			this.pro_descripcion = pro_descripcion;
 		else
-			throw new DomainException("Debe contener entre 5 y 100 carácteres, letras y números");
+			throw new DomainException("Debe contener entre 5 y 100 carácteres");
 	}
 
 	public String getPro_desLarga() {
@@ -64,7 +116,7 @@ public class Producto {
 	}
 
 	public void setPro_desLarga(String pro_desLarga) throws DomainException {
-		if (Validator.isAlfanumeric(pro_desLarga) && Validator.cumpleLongitud(pro_desLarga, 5, 2000))
+		if (Validator.isAlfanumeric(pro_desLarga) && Validator.cumpleLongitud(pro_desLarga, MIN, MAX_3))
 			this.pro_desLarga = pro_desLarga;
 		else
 			throw new DomainException("Debe contener entre 5 y 2000 carácteres, letras y números");
@@ -74,9 +126,13 @@ public class Producto {
 		return pro_precio;
 	}
 
-	public void setPro_precio(double pro_precio) {
-		DecimalFormat df = new DecimalFormat("#.00");
-		this.pro_precio = Double.parseDouble(df.format(pro_precio));
+	public void setPro_precio(double pro_precio) throws DomainException {
+		if (Validator.cumpleRango(pro_precio, 0, 100)) {
+			DecimalFormat df = new DecimalFormat("#.00");
+			this.pro_precio = Double.parseDouble(df.format(pro_precio));
+		} else {
+			throw new DomainException("Debe contener como máximo 100 valores");
+		}
 	}
 
 	public int getPro_stock() {
@@ -92,7 +148,7 @@ public class Producto {
 	}
 
 	public void setPro_fecRepos(LocalDate pro_fecRepos) throws DomainException {
-		if (Validator.esFechaValida(pro_fecRepos.toString()) && Validator.valDateMin(pro_fecRepos, LocalDate.now()))
+		if (Validator.esFechaValida(pro_fecRepos.toString()) && Validator.valDateMin(pro_fecRepos, FECHA_HOY))
 			this.pro_fecRepos = pro_fecRepos;
 		else
 			throw new DomainException("El formato de la fecha debeser de dd/mm/yyyy");
@@ -103,7 +159,7 @@ public class Producto {
 	}
 
 	public void setPro_fecActi(LocalDate pro_fecActi) throws DomainException {
-		if (Validator.valDateMin(pro_fecActi, LocalDate.now()) && Validator.esFechaValida(pro_fecActi.toString()))
+		if (Validator.valDateMin(pro_fecActi, FECHA_HOY) && Validator.esFechaValida(pro_fecActi.toString()))
 			this.pro_fecActi = pro_fecActi;
 		else
 			throw new DomainException("El formato de la fecha debeser de dd/mm/yyyy");
@@ -113,12 +169,22 @@ public class Producto {
 		return pro_fecDesacti;
 	}
 
+	/**
+	 * Método que comprueba que la fecha de desactivación del producto sea mayor a
+	 * la actual, así pues, sí existe la fecha de activación,esta será mayor a la
+	 * fecha de activación.
+	 * 
+	 * @param fecha de desactivación
+	 * @throws DomainException
+	 */
 	public void setPro_fecDesacti(LocalDate pro_fecDesacti) throws DomainException {
-		if (Validator.esFechaValida(pro_fecDesacti.toString()) && (Validator.valDateMin(pro_fecDesacti, LocalDate.now())
-				&& Validator.valDateMin(pro_fecDesacti, pro_fecActi)))
+		if (Validator.esFechaValida(pro_fecDesacti.toString()) && (Validator.valDateMin(pro_fecDesacti, FECHA_HOY)))
 			this.pro_fecDesacti = pro_fecDesacti;
-		else
-			throw new DomainException("El formato de la fecha debeser de dd/mm/yyyy");
+		else if (pro_fecActi != null) {
+			Validator.valDateMin(pro_fecDesacti, getPro_fecActi());
+			this.pro_fecDesacti = pro_fecDesacti;
+		}
+		throw new DomainException("El formato de la fecha debeser de dd/mm/yyyy");
 	}
 
 	public String getPro_uniVenta() {
@@ -126,10 +192,7 @@ public class Producto {
 	}
 
 	public void setPro_uniVenta(String pro_uniVenta) throws DomainException {
-		if (Validator.isAlfanumeric(pro_uniVenta))
-			this.pro_uniVenta = pro_uniVenta;
-		else
-			throw new DomainException("Debe ser minúscula, mayúscula con dígitos entre 0 y 9");
+		this.pro_uniVenta = pro_uniVenta;
 	}
 
 	public double getPro_cantXUniVenta() {
@@ -165,11 +228,11 @@ public class Producto {
 		this.pro_usoRecomendado = pro_usoRecomendado;
 	}
 
-	public int getId_categoria() {
+	public Categoria getId_categoria() {
 		return id_categoria;
 	}
 
-	public void setId_categoria(int id_categoria) {
+	public void setId_categoria(Categoria id_categoria) {
 		this.id_categoria = id_categoria;
 	}
 
@@ -201,8 +264,11 @@ public class Producto {
 		return pro_stat;
 	}
 
-	public void setPro_stat(char pro_stat) {
-		this.pro_stat = pro_stat;
+	public void setPro_stat(char pro_stat) throws DomainException {
+		if ((pro_stat == 'A' || pro_stat == 'B') && Validator.cumpleLongitud(id_producto + "", MIN_2, MIN_2))
+			this.pro_stat = pro_stat;
+		else
+			throw new DomainException("Debe ser A o B solamente");
 	}
 
 	@Override

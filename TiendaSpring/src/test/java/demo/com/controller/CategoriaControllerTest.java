@@ -1,7 +1,6 @@
 package demo.com.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,9 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import demo.com.dominio.Categoria;
+import demo.com.exception.ControllerException;
+import demo.com.exception.DAOException;
 import demo.com.objetos.Repository.ICategoriaRepo;
 import demo.com.util.ErrorMessages;
-import demo.com.util.Mensajes;
 
 class CategoriaControllerTest {
 	
@@ -52,60 +52,31 @@ class CategoriaControllerTest {
 
 	@Test
 	final void testGetRegistro() {
-		assertNotNull(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno,categoria_dos)));
-	}
-
-	@Test
-	final void testSinDatos() {
-		assertNull(controller.sinDatos());
+		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno,categoria_dos)));
 	}
 
 	@Test
 	final void testListarCategoria() {
-		assertNotNull(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno)));
-		assertNotNull(when(controller.listarCategoria()).thenReturn(List.of(categoria_dos)));
+		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno)));
+		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_dos)));
 	}
 
 	@Test
 	final void testInsert() throws Exception {
-		Mensajes m1 = new Mensajes();
-		m1.mensaje="";
-		m1.codigo="200";
-		m1.categoria=categoria_uno;
-		Mensajes m2 = new Mensajes();
-		m2.mensaje="";
-		m2.codigo="200";
-		m2.categoria=categoria_dos;
-		assertNotNull(when(controller.insert(categoria_uno)).thenReturn(m1));
-		assertNotNull(when(controller.insert(categoria_dos)).thenReturn(m2));
+		assertThat(when(controller.insert(categoria_uno)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		assertThat(when(controller.insert(categoria_dos)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
 	}
 
 	@Test
 	final void testInsertById() {
-		Mensajes m1 = new Mensajes();
-		m1.mensaje="";
-		m1.codigo="200";
-		m1.categoria=categoria_uno;
-		Mensajes m2 = new Mensajes();
-		m2.mensaje="";
-		m2.codigo="500";
-		m2.categoria=null;
-		assertNotNull(when(controller.insertById(categoria_uno, IDS)).thenReturn(m1));
-		assertNotNull(when(controller.insertById(categoria_dos, IDS)).thenReturn(m2));
+		assertThat(when(controller.insertById(categoria_uno, IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		assertThat(when(controller.insertById(categoria_dos, IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
 	}
 
 	@Test
-	final void testDelete() {
-		Mensajes m1 = new Mensajes();
-		m1.mensaje="";
-		m1.codigo="200";
-		m1.categoria=categoria_uno;
-		Mensajes m2 = new Mensajes();
-		m2.mensaje="";
-		m2.codigo="200";
-		m2.categoria=categoria_dos;
-		assertNotNull(when(controller.delete(IDS)).thenReturn(m1));
-		assertNotNull(when(controller.delete(IDS)).thenReturn(m2));
+	final void testDelete() throws DAOException {
+		assertThat(when(controller.delete(IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		assertThat(when(controller.delete(IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
 	}
 
 }

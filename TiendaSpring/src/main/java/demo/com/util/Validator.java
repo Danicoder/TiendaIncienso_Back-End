@@ -15,8 +15,14 @@ import java.time.format.DateTimeParseException;
  * 
  ******************************************************************************************/
 public class Validator {
-
+	/**
+	 * Patrón que valida si es alfanumércico con espacios.
+	 */
 	private static final String ALFANUMERIC_PATTERN = "^[0-9a-zA-Z\\s]+$";
+	/**
+	 * Patrón para validar si son letras mayúsculas con números
+	 */
+	private static final String ALFANUMERICMAYUS_PATTERN = "[A-Z0-9\\s]+";
 
 	private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 	/**
@@ -73,6 +79,14 @@ public class Validator {
 	 */
 	public static boolean isAlfanumeric(String texto) {
 		return texto.matches(ALFANUMERIC_PATTERN);
+	}
+	/**
+	 * Método que verifica sí es mayúscula con dígitos entre 0 y 9
+	 * @param texto
+	 * @return verdadero si cumple con la definición
+	 */
+	public static boolean isAlfanumeric_Mayus(String texto) {
+		return texto.matches(ALFANUMERICMAYUS_PATTERN);
 	}
 
 	/**

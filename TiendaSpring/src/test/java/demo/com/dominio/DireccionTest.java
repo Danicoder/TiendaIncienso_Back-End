@@ -25,15 +25,18 @@ class DireccionTest {
 	final String PROVINCIA = "Alicante";
 
 	final String PAIS = "Espana";
+	final int ID_PAIS = 1;
 
 	final String EMAIL = "daniela@hotmail.com";
-	final String EMAIL_ERROR = "Concha.hotmail.com";
+	final String EMAIL_ERROR = "Concha.$hotmail.com";
 
 	Direccion dir;
-
+	Pais pais;
+	
 	@BeforeEach
 	void creacion() {
 		dir = new Direccion();
+		pais = new Pais();
 	}
 
 	@Test
@@ -107,14 +110,16 @@ class DireccionTest {
 
 	@Test
 	void testGetDir_pais() throws Exception {
-		dir.setDir_pais(PAIS);
-		assertEquals(PAIS, dir.getDir_pais());
+		pais.setId_pais(ID_PAIS);
+		dir.setDir_pais(pais.getId_pais());
+		assertEquals(ID_PAIS, dir.getDir_pais());
 	}
 
 	@Test
 	void testSetDir_pais() throws Exception {
-		dir.setDir_pais(PAIS);
-		assertEquals(PAIS, dir.getDir_pais());
+		pais.setId_pais(ID_PAIS);
+		dir.setDir_pais(pais.getId_pais());
+		assertEquals(ID_PAIS, dir.getDir_pais());
 	}
 
 	@Test

@@ -1,8 +1,0 @@
-package demo.com.service;
-
-public interface ServicioDao <T>{
-	void save()
-//	deleteById
-//	findAll()
-//	findById()
-}

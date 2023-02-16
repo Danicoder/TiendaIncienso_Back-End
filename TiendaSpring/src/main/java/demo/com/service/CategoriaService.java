@@ -10,6 +10,7 @@ import demo.com.dominio.Categoria;
 import demo.com.exception.DAOException;
 import demo.com.interfaces.daos.ICategoria;
 import demo.com.objetos.Repository.ICategoriaRepo;
+import demo.com.util.ErrorMessages;
 import demo.com.util.Validator;
 
 @Service
@@ -24,7 +25,7 @@ public class CategoriaService implements ICategoria {
 				return CategoriaRepository.findById(id).get();
 			}
 			else
-				new DAOException("Error 404 Not_found, Categoria no encontrada");
+				new DAOException(ErrorMessages.PROERR_009);
 		}catch(NoSuchElementException e) {
 			e.fillInStackTrace();
 		}
@@ -38,7 +39,7 @@ public class CategoriaService implements ICategoria {
 				return CategoriaRepository.findAll();
 			}
 			else
-				new DAOException("Error: no existe la categoria");
+				new DAOException(ErrorMessages.PROERR_008);
 		}catch(NoSuchElementException e) {
 			e.fillInStackTrace();
 		}
@@ -53,12 +54,12 @@ public class CategoriaService implements ICategoria {
 				&& (!Validator.isVacio(categoria.getCat_nombre()) &&
 					categoria.getId_categoria() != 0) )
 				{
-				new DAOException("Error 404 Not_found, Categoria no encontrada");
+				new DAOException(ErrorMessages.PROERR_008);
 				}
 				return CategoriaRepository.save(categoria);
 		}catch(NullPointerException e)
 		{
-			new DAOException("Error 404 Not_found, Categoria no encontrada");
+			new DAOException(ErrorMessages.PROERR_012);
 		}
 		return categoria;
 	}
@@ -66,7 +67,7 @@ public class CategoriaService implements ICategoria {
 	@Override
 	public Categoria actualizarById(Categoria c, int id) {
 		if (!CategoriaRepository.existsById(c.getId_categoria())) {
-			new DAOException("Error 404 Not_found, Categoria no encontrada");
+			new DAOException(ErrorMessages.PROERR_008);
 		}
 		c.setId_categoria(id);
 		return CategoriaRepository.save(c);

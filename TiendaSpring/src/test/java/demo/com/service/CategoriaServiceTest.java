@@ -1,15 +1,11 @@
 package demo.com.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.ModuleLayer.Controller;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +16,6 @@ import org.mockito.Mock;
 import demo.com.controller.CategoriaController;
 import demo.com.dominio.Categoria;
 import demo.com.objetos.Repository.ICategoriaRepo;
-import demo.com.util.Mensajes;
 
 class CategoriaServiceTest {
 	
