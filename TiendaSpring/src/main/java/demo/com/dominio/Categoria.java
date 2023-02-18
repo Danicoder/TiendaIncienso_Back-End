@@ -2,6 +2,8 @@ package demo.com.dominio;
 
 import java.io.Serializable;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import demo.com.exception.DomainException;
@@ -27,6 +29,7 @@ import jakarta.persistence.Transient;
  * montón de bytes y pueda luego recuperarlo
  */
 @SuppressWarnings("serial")
+@CrossOrigin
 @Entity
 public class Categoria implements Serializable, Modelo {
 	@Id

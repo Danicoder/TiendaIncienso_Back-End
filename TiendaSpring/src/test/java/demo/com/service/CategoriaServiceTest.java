@@ -15,6 +15,7 @@ import org.mockito.Mock;
 
 import demo.com.controller.CategoriaController;
 import demo.com.dominio.Categoria;
+import demo.com.exception.ControllerException;
 import demo.com.objetos.Repository.ICategoriaRepo;
 
 class CategoriaServiceTest {
@@ -73,7 +74,7 @@ class CategoriaServiceTest {
 	}
 
 	@Test
-	final void testDeleteById() {
+	final void testDeleteById() throws ControllerException {
 		service.deleteById(2);
 		assertEquals(controller.getRegistro("5"),service.getCategoriaById(5));
 	}

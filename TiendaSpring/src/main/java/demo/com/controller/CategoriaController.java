@@ -31,7 +31,7 @@ import demo.com.util.ErrorMessages;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/categorias")
+@RequestMapping("/categoria")
 public class CategoriaController {
 	@Autowired // llama a Spring para indicar que será una instancia
 	private CategoriaService CategoriaService;
@@ -89,7 +89,7 @@ public class CategoriaController {
 		}
 	}
 
-	@PutMapping("/actualizar/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<?> insertById(@RequestBody Categoria c, @PathVariable String id) {
 		try {
 			if (id != null && c != null) {
@@ -104,7 +104,7 @@ public class CategoriaController {
 		}
 	}
 
-	@DeleteMapping("/eliminar/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") String id) throws DAOException {																			// caso de no existir la id
 		Map<String, Object> response = new LinkedHashMap<>();
 		if (id != null) {

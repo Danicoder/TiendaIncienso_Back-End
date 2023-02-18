@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import demo.com.dominio.Categoria;
 import demo.com.exception.ControllerException;
@@ -25,8 +27,7 @@ class CategoriaControllerTest {
 	private final String NOMBRE2="Incienso";
 	private final int ID = 2;
 	private final String IDS = Integer.toString(ID);
-	
-	
+		
 	@Mock
 	private ICategoriaRepo CategoriaRepository;
 	@InjectMocks
@@ -48,35 +49,60 @@ class CategoriaControllerTest {
 		categoria_dos.setCat_descripcion(DESCRIPCION2);
 		categoria_dos.setCat_nombre(NOMBRE2);
 		categoria_dos.setId_categoria(ID);
+		
+		ResponseEntity<Integer> responseEntity =
+				ResponseEntity.status(HttpStatus.OK).header("status", "datos", "categoria").body(42);
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getHeaders().containsKey(1)).isTrue();
+		assertThat(responseEntity.getHeaders().get(1)).containsKey(1).isTrue();
+		assertThat(responseEntity.getBody()).isEqualTo(1);
 	}
 
 	@Test
-	final void testGetRegistro() {
-		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno,categoria_dos)));
+	final void testGetRegistro() throws ControllerException {
+		ResponseEntity<?> responseEntity = controller.listarCategoria();
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNull();
 	}
 
 	@Test
-	final void testListarCategoria() {
-		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_uno)));
-		assertThat(when(controller.listarCategoria()).thenReturn(List.of(categoria_dos)));
+	final void testListarCategoria() throws ControllerException {
+		ResponseEntity<?> responseEntity = controller.getRegistro(IDS);
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNull();
 	}
 
 	@Test
 	final void testInsert() throws Exception {
-		assertThat(when(controller.insert(categoria_uno)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
-		assertThat(when(controller.insert(categoria_dos)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		ResponseEntity<?> responseEntity = controller.insert(categoria_uno);
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNull();
 	}
 
 	@Test
 	final void testInsertById() {
-		assertThat(when(controller.insertById(categoria_uno, IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
-		assertThat(when(controller.insertById(categoria_dos, IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		ResponseEntity<?> responseEntity = controller.insertById(categoria_uno, IDS);
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNull();
 	}
 
 	@Test
 	final void testDelete() throws DAOException {
-		assertThat(when(controller.delete(IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
-		assertThat(when(controller.delete(IDS)).thenReturn(ControllerException.montaError(200, ErrorMessages.PROERR_013, null)));
+		ResponseEntity<?> responseEntity = controller.delete(IDS);
+
+		assertThat(responseEntity).isNotNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(responseEntity.getBody()).isNull();
 	}
 
 }
