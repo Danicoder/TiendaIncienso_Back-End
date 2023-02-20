@@ -41,12 +41,11 @@ public class CategoriaController {
 	public ResponseEntity<?> listarCategoria() throws ControllerException {
 		List<Categoria> categoria = CategoriaService.getlistaCategoria();
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		if(!categoria.isEmpty()) {
+		if (!categoria.isEmpty()) {
 			map.put("status", 1);
 			map.put("datos", categoria);
-			return new ResponseEntity<>(map,HttpStatus.OK);
-		}
-		else {
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} else {
 			throw new ControllerException(ErrorMessages.PROERR_008);
 		}
 	}
@@ -60,7 +59,7 @@ public class CategoriaController {
 				int idNum = Integer.parseInt(id);
 				c = CategoriaService.getCategoriaById(idNum);
 				if (c == null) {
-					return new ResponseEntity<>(ControllerException.montaError(0,c),HttpStatus.OK);
+					return new ResponseEntity<>(ControllerException.montaError(0, c), HttpStatus.OK);
 				} else {
 					mensaje = ErrorMessages.PROERR_001;
 				}
@@ -70,12 +69,12 @@ public class CategoriaController {
 		} else {
 			mensaje = ErrorMessages.PROERR_001;
 		}
-		return new ResponseEntity<>(ControllerException.montaError(0,c),HttpStatus.OK);
+		return new ResponseEntity<>(ControllerException.montaError(0, c), HttpStatus.OK);
 	}
 
 	@GetMapping("/")
 	public ResponseEntity<?> sinDatos() {
-		return new ResponseEntity<>(ControllerException.montaError(1,null),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(ControllerException.montaError(1, null), HttpStatus.BAD_REQUEST);
 	}
 
 	@PostMapping
@@ -83,29 +82,26 @@ public class CategoriaController {
 		c.setId_categoria(0);
 		try {
 			CategoriaService.actualizar(c);
-			return new ResponseEntity<>(ControllerException.montaError(0,c),HttpStatus.OK);
+			return new ResponseEntity<>(ControllerException.montaError(0, c), HttpStatus.OK);
 		} catch (DataAccessException e) {
-			return new ResponseEntity<>(ControllerException.montaError(1,c),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(ControllerException.montaError(1, c), HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@PutMapping("{id}")
-	public ResponseEntity<?> insertById(@RequestBody Categoria c, @PathVariable String id) {
+	@PutMapping
+	public ResponseEntity<?> insertById(@RequestBody Categoria c) {
 		try {
-			if (id != null && c != null) {
-				int idNum = Integer.parseInt(id);
-				CategoriaService.actualizarById(c, idNum);
-				return new ResponseEntity<>(ControllerException.montaError(0,c),HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>(ControllerException.montaError(1,c),HttpStatus.BAD_REQUEST);
-			}
+			CategoriaService.actualizar(c);
+			return new ResponseEntity<>(ControllerException.montaError(0, c), HttpStatus.OK);
 		} catch (DataAccessException e) {
-			return new ResponseEntity<>(ControllerException.montaError(1,c),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(ControllerException.montaError(1, c), HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@DeleteMapping("{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") String id) throws DAOException {																			// caso de no existir la id
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") String id) throws DAOException { // caso de no
+																											// existir
+																											// la id
 		Map<String, Object> response = new LinkedHashMap<>();
 		if (id != null) {
 			try {
@@ -114,10 +110,12 @@ public class CategoriaController {
 				response.put("Mensaje:", ErrorMessages.PROERR_014);
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			} catch (NumberFormatException e) {
-				return new ResponseEntity<>(ControllerException.montaError(1,null),HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Map<String, Object>>(ControllerException.montaError(1, null),
+						HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			return new ResponseEntity<>(ControllerException.montaError(1,null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String, Object>>(ControllerException.montaError(1, null),
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 }

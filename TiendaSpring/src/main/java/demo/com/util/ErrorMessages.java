@@ -11,12 +11,9 @@ package demo.com.util;
  *  @author 	Daniela Garcia
  *  
  *  *****************************************************/
-public class ErrorMessages {
-	
-	
-		
+public class ErrorMessages {	
 	/**
-	 * Codigo de producto
+	 * Codigo erroneo
 	 */
 	public final static String PROERR_000 = "Formato correcto";
 	public final static String PROERR_001 = "Formato codigo erroneo";
@@ -41,5 +38,4 @@ public class ErrorMessages {
 	public final static String PROERR_012 = "Formato de escritura incorrecto, revisa la URL";
 	public final static String PROERR_013 = "Formato de escritura correcto";
 	public final static String PROERR_014 = "Se elimino la categoria correctamente";
-	
 }

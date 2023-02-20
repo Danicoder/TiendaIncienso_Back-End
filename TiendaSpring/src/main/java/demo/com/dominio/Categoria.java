@@ -52,7 +52,6 @@ public class Categoria implements Serializable, Modelo {
 	public int getId_categoria() {
 		return id_categoria;
 	}
-
 	@Transient
 	@Override
 	@JsonIgnore // ignora la información en postmand

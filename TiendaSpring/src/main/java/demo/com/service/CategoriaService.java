@@ -65,15 +65,6 @@ public class CategoriaService implements ICategoria {
 	}
 
 	@Override
-	public Categoria actualizarById(Categoria c, int id) {
-		if (!CategoriaRepository.existsById(c.getId_categoria())) {
-			new DAOException(ErrorMessages.PROERR_008);
-		}
-		c.setId_categoria(id);
-		return CategoriaRepository.save(c);
-	}
-
-	@Override
 	public void deleteById(int id) {
 		CategoriaRepository.deleteById(id);
 	}
